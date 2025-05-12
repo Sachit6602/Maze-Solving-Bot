@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="overhead_camera">
+  <!-- Static link to hold the camera in the air -->
+  <link name="camera_link">
+    <visual>
+      <geometry>
+        <box size="1 1 0.2"/>
+      </geometry>
+      <material>
+        <color rgba="0.2 0.2 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="1 1 0.2"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1e-5"/>
+      <inertia ixx="1e-5" ixy="0.0" ixz="0.0" iyy="1e-5" iyz="0.0" izz="1e-5"/>
+    </inertial>
+  </link>
+
+  <!-- Gazebo plugin to simulate camera sensor -->
+  <gazebo reference="camera_link">
+    <sensor type="camera" name="overhead_camera_sensor">
+      <always_on>true</always_on>
+      <update_rate>30.0</update_rate>
+      <visualize>true</visualize>
+      <camera>
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <ros>
+          <namespace>/camera</namespace>
+        </ros>
+        <camera_name>overhead_camera</camera_name>
+        <frame_name>camera_link</frame_name>
+        <image_topic_name>image_raw</image_topic_name>
+        <info_topic_name>camera_info</info_topic_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- Mark the camera as static -->
+  <gazebo>
+    <static>true</static>
+  </gazebo>
+</robot>
