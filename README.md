@@ -25,4 +25,15 @@ This project simulates a maze-solving robot in a full ROS2 + Gazebo environment 
 
 ---
 
+## ✅ Running Project
+
+cd /root/ros2_ws
+colcon build --packages-select maze_solve
+source install/setup.bash
+
+# Launch robot in Gazebo
+ros2 launch maze_solve maze_world.launch.py
+
+# Run the path planning node
+ros2 run maze_solve maze_solver
 
